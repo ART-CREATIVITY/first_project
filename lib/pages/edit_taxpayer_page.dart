@@ -11,6 +11,12 @@ class EditTaxpayerPage extends StatefulWidget {
 class _EditTaxpayerPageState extends State<EditTaxpayerPage> {
 
   Gender? _gender = null;
+  Taxpayer taxpayer = Taxpayer();
+  TextEditingController _firstController = TextEditingController();
+  TextEditingController _lastController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _addressController = TextEditingController();
+  TextEditingController _phoneController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,6 +30,7 @@ class _EditTaxpayerPageState extends State<EditTaxpayerPage> {
             Container(
               padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
               child: TextFormField(
+                controller: _lastController,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: "Nom",
@@ -34,6 +41,7 @@ class _EditTaxpayerPageState extends State<EditTaxpayerPage> {
             Container(
               padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
               child: TextFormField(
+                controller: _firstController,
                 decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: "Prenoms",
@@ -93,6 +101,7 @@ class _EditTaxpayerPageState extends State<EditTaxpayerPage> {
             Container(
               padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
               child: TextFormField(
+                controller: _emailController,
                 decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: "Email",
@@ -104,6 +113,7 @@ class _EditTaxpayerPageState extends State<EditTaxpayerPage> {
             Container(
               padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
               child: TextFormField(
+                controller: _phoneController,
                 decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: "Telephone",
@@ -115,6 +125,7 @@ class _EditTaxpayerPageState extends State<EditTaxpayerPage> {
             Container(
               padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
               child: TextFormField(
+                controller: _addressController,
                 decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: "Adresse",
@@ -124,10 +135,30 @@ class _EditTaxpayerPageState extends State<EditTaxpayerPage> {
                 maxLines: 3,
                 minLines: 1,
               ),
-            )
+            ),
+            Container(
+              width: double.infinity,
+                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                child: ElevatedButton(
+                    onPressed: save,
+
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Text("Enregistrer", style: TextStyle(fontSize: 18)),
+                    )))
           ],
         ),
       ),
     );
+  }
+
+  save() {
+    taxpayer.firstName = _firstController.text;
+    taxpayer.lastName = _lastController.text;
+    taxpayer.gender = _gender;
+    taxpayer.email = _emailController.text;
+    taxpayer.address = _addressController.text;
+    taxpayer.phone = _phoneController.text;
+    Navigator.pop(context, taxpayer);
   }
 }

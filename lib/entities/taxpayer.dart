@@ -20,6 +20,11 @@ class Taxpayer {
       this.address,
       this.identifyPicture,
       this.bornAround});
+
+  @override
+  String toString() {
+    return 'Taxpayer{firstName: $firstName, lastName: $lastName, gender: $gender, birthDay: $birthDay, phone: $phone, email: $email, address: $address, identifyPicture: $identifyPicture, bornAround: $bornAround}';
+  }
 }
 
 enum Gender {MALE, FEMALE, OTHER}
