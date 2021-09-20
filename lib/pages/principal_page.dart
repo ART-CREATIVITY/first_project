@@ -12,6 +12,7 @@ class PrincipalPage extends StatefulWidget {
 
 class _PrincipalPageState extends State<PrincipalPage> {
   List<Taxpayer> _taxpayers = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

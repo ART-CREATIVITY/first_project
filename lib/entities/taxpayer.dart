@@ -1,5 +1,6 @@
 class Taxpayer {
 
+  int ?id;
   String? firstName;
   String? lastName;
   Gender? gender;
@@ -10,8 +11,12 @@ class Taxpayer {
   String? identifyPicture;
   bool? bornAround;
 
+  static const String TABLE = "Taxpayer";
+
   Taxpayer(
-      {this.firstName,
+      {
+        this.id,
+        this.firstName,
       this.lastName,
       this.gender,
       this.birthDay,
