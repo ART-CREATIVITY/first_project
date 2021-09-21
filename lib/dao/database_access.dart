@@ -17,6 +17,8 @@ class DatabaseAccess {
           await db.execute(
               'CREATE TABLE ${Taxpayer.TABLE} (id INTEGER PRIMARY KEY AUTOINCREMENT, firstName VARCHAR(100), lastName VARCHAR(100), gender VARCHAR(20), address TEXT, phone VARCHAR(50), identifyPicture VARCHAR, email VARCHAR(50), birthDay DATETIME, bornAround bit)');
 
+        }, onUpgrade: (Database db, int oldVersion, int newVersion) {
+
         });
 
     return _database!;

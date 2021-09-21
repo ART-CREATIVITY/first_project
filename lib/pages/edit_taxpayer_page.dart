@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:first_project/dao/taxpayer_dao.dart';
+import 'package:first_project/web_service/web_service.dart';
 import 'package:flutter/material.dart';
 import 'package:first_project/entities/taxpayer.dart';
 import 'package:intl/intl.dart';
@@ -27,6 +29,7 @@ class _EditTaxpayerPageState extends State<EditTaxpayerPage> {
   final DateFormat formatter = DateFormat('dd/MM/yyyy');
   final ImagePicker _picker = ImagePicker();
   File ?image;
+  TaxpayerDao taxpayerDao = new TaxpayerDao();
 
   @override
   Widget build(BuildContext context) {
@@ -274,7 +277,7 @@ class _EditTaxpayerPageState extends State<EditTaxpayerPage> {
     );
   }
 
-  save() {
+  save() async {
     if(!_formKey.currentState!.validate()){
       return;
     }
@@ -284,6 +287,13 @@ class _EditTaxpayerPageState extends State<EditTaxpayerPage> {
     taxpayer.email = _emailController.text;
     taxpayer.address = _addressController.text;
     taxpayer.phone = _phoneController.text;
+    taxpayer.birthDay = birthDay;
+    if(image!=null) taxpayer.identifyPicture = image!.path;
+    taxpayer.id = null;
+    taxpayer = await taxpayerDao.createTaxpayer(taxpayer);
+    WebService webService = WebService();
+    var tax = await webService.createTaxpayer(taxpayer);
+    print(tax);
     Navigator.pop(context, taxpayer);
   }
 
