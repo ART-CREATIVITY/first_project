@@ -8,7 +8,8 @@ import 'package:intl/intl.dart';
 import 'package:image_picker/image_picker.dart';
 
 class EditTaxpayerPage extends StatefulWidget {
-  const EditTaxpayerPage({Key? key}) : super(key: key);
+  const EditTaxpayerPage({Key? key, this.taxpayer}) : super(key: key);
+  final Taxpayer? taxpayer;
 
   @override
   _EditTaxpayerPageState createState() => _EditTaxpayerPageState();

@@ -1,21 +1,77 @@
+import 'package:country_code_picker/country_code.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:first_project/entities/taxpayer.dart';
+import 'package:first_project/pages/code_verification_page.dart';
+import 'package:first_project/pages/edit_taxpayer_page.dart';
+import 'package:first_project/pages/login_page.dart';
 import 'package:first_project/pages/principal_page.dart';
+import 'package:first_project/utils/app_preferences.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  // await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+class MyApp extends StatefulWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  AppPreferences? preferences;
+  String? initRoute;
+  @override
+  void initState() {
+    // TODO: implement initState
+    checkState();
+    super.initState();
+  }
+
+  checkState()async {
+    preferences = await AppPreferences.init();
+    if(preferences!.checkLogin()){
+      initRoute = "home";
+    } else {
+      initRoute = "login";
+    }
+    setState(() {
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return initRoute==null? Container() : MaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.green,
       ),
-      home: PrincipalPage(),
+      // home: PrincipalPage(),
+      initialRoute: initRoute,
+      onGenerateRoute: (settings){
+        switch(settings.name) {
+          case "home" :
+            return MaterialPageRoute(builder: (context)=>PrincipalPage());
+          case "login":
+            return MaterialPageRoute(builder: (context)=>LoginPage());
+          case "login/verification":
+            Map<String, dynamic> map = settings.arguments as Map<String, dynamic>;
+            return MaterialPageRoute(builder: (context)=>CodeVerificationPage(code: map["code"] as CountryCode,
+                phone: map["phone"] as String, verificationId: map["verificationId"] as String
+              , resendToken: map["resendToken"] as int,
+            ));
+          case "taxpayers/create":
+            return MaterialPageRoute(builder: (context)=>EditTaxpayerPage());
+          case "taxpayers/update":
+            return MaterialPageRoute(builder: (context)=>EditTaxpayerPage(taxpayer: settings.arguments as Taxpayer,));
+        }
+      },
     );
   }
 }

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "593792381810",
+    "project_id": "ifu-distribution",
+    "storage_bucket": "ifu-distribution.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:593792381810:android:4f9cc5585434ce9755a3eb",
+        "android_client_info": {
+          "package_name": "io.artcreativity.ifudistribution"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "593792381810-co4slr4n9dgnpu9f3s4kkmqa0s4kv38e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.artcreativity.ifudistribution",
+            "certificate_hash": "5c08f53719dd2d03df6005b04961970daa3eb97f"
+          }
+        },
+        {
+          "client_id": "593792381810-pblk9ak6ssi1kt7o8166h2507lf5kl46.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB6lO-xoLZUPeObUxSg80LdmgY1zn_I_78"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "593792381810-pblk9ak6ssi1kt7o8166h2507lf5kl46.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

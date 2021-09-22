@@ -36,6 +36,11 @@ dependencies:
   dio: ^4.0.0
   retrofit: any
   logger: any
+  shared_preferences: ^2.0.7
+  country_code_picker: ^2.0.2
+  firebase_core: ^1.6.0
+  firebase_auth: ^3.1.1
+  pin_code_fields: ^7.3.0
 
 dev_dependencies:
   flutter_test:
