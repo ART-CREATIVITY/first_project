@@ -15,7 +15,7 @@ class WebService {
 
   static getTaxpayerWebService(){
     if(_taxpayerWebService==null){
-      _taxpayerWebService = TaxpayerWebService(dio);
+      _taxpayerWebService = TaxpayerWebService(dio, baseUrl: RestApiUrl.SERVER_URL);
     }
 
     return _taxpayerWebService;
