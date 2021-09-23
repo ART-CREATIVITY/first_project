@@ -13,6 +13,8 @@ class _LoginPageState extends State<LoginPage> {
 
   TextEditingController _phoneController = TextEditingController();
   CountryCode ?_code;
+  bool _loading = false;
+  bool _waitingConfirm = false;
 
   @override
   void initState() {
@@ -73,31 +75,14 @@ class _LoginPageState extends State<LoginPage> {
                 Container(
                     width: double.infinity,
                     child: ElevatedButton(
-                        onPressed: () async {
-                          await FirebaseAuth.instance.verifyPhoneNumber(
-                            phoneNumber: '${_code!.dialCode}${_phoneController.text}',
-                            verificationCompleted: (PhoneAuthCredential credential) {
-                              print("credential");
-                              print(credential);
-                            },
-                            verificationFailed: (FirebaseAuthException e) {
-                              print("FirebaseAuthException");
-                              print(e);
-                            },
-                            codeSent: (String verificationId, int? resendToken) {
-                              print("codeSent");
-                              print(verificationId);
-                              Navigator.pushNamed(context, "login/verification",
-                                  arguments: {"code": _code, "phone": _phoneController.text
-                                    ,"verificationId": verificationId, "resendToken": resendToken});
-                            },
-                            codeAutoRetrievalTimeout: (String verificationId) {
-                              print("codeAutoRetrievalTimeout");
-                              print(verificationId);
-                            },
-                          );
+                        onPressed: _waitingConfirm ? null : () {
+                          _waitingConfirm = true;
+                          setState(() {
 
-                        }, child: Padding(
+                          });
+                          confirmPhoneNumberDialog();
+
+                        }, child: _loading ? CircularProgressIndicator() : Padding(
                           padding: const EdgeInsets.all(16.0),
                           child: Text("Envoyer",),
                         )))
@@ -106,6 +91,72 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ),
       ),
+    );
+  }
+
+  confirmPhoneNumberDialog() {
+    showDialog(context: context, builder: (context){
+      return AlertDialog(
+        title: Text("Confirmation", style: TextStyle(fontWeight: FontWeight.w700),),
+        content: Text("${_code!.dialCode} ${_phoneController.text}",),
+        actions: [
+          TextButton(onPressed: (){
+            Navigator.pop(context);
+            _waitingConfirm = false;
+            setState(() {
+
+            });
+          }, child: Text("Non", style: TextStyle(color: Colors.red),)),
+          ElevatedButton(onPressed: (){
+            Navigator.pop(context);
+            _loading = true;
+            setState(() {
+
+            });
+            sendCode();
+          }, child: Text("Oui")),
+        ],
+      );
+    });
+  }
+
+  sendCode() async {
+    await FirebaseAuth.instance.verifyPhoneNumber(
+      phoneNumber: '${_code!.dialCode}${_phoneController.text}',
+      verificationCompleted: (PhoneAuthCredential credential) {
+        print("credential");
+        print(credential);
+      },
+      verificationFailed: (FirebaseAuthException e) {
+        print("FirebaseAuthException");
+        print(e);
+      },
+      codeSent: (String verificationId, int? resendToken) {
+        print("codeSent");
+        print(verificationId);
+        _loading = false;
+        _waitingConfirm = false;
+        setState(() {
+
+        });
+        Navigator.pushNamed(context, "login/verification",
+            arguments: {"code": _code, "phone": _phoneController.text
+              ,"verificationId": verificationId, "resendToken": resendToken});
+      },
+      codeAutoRetrievalTimeout: (String verificationId) {
+        print("codeAutoRetrievalTimeout");
+        print(verificationId);
+        _loading = false;
+        _waitingConfirm = false;
+        if(mounted)
+        setState(() {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: SnackBarAction(
+                  label: "Erreur d'envoi du code", onPressed: () {
+
+              })));
+        });
+      },
     );
   }
 }
