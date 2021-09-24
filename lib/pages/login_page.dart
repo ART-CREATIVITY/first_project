@@ -1,6 +1,7 @@
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -30,7 +31,7 @@ class _LoginPageState extends State<LoginPage> {
         elevation: 0,
         backgroundColor: Colors.white,
         title: Text(
-          "Login",
+          AppLocalizations.of(context)!.login,
           style: TextStyle(fontSize: 26, color: Colors.black87),
         ),
       ),

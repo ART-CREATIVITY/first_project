@@ -8,6 +8,9 @@ import 'package:first_project/pages/login_page.dart';
 import 'package:first_project/pages/principal_page.dart';
 import 'package:first_project/utils/app_preferences.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,6 +27,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  static const platform = MethodChannel('samples.flutter.dev/battery');
   AppPreferences? preferences;
   String? initRoute;
   @override
@@ -34,12 +38,19 @@ class _MyAppState extends State<MyApp> {
   }
 
   checkState()async {
+    // platform.checkMethodCallHandler((call) => null)
     preferences = await AppPreferences.init();
     if(preferences!.checkLogin()){
       initRoute = "home";
     } else {
       initRoute = "login";
     }
+    Stream<int> stream = Stream.periodic(Duration(seconds: 2), (i) {return i; });
+    stream.asBroadcastStream(onListen : (snapshot){
+      snapshot.onData((data) {
+        print(data);
+      });
+    });
     setState(() {
     });
   }
@@ -47,6 +58,16 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return initRoute==null? Container() : MaterialApp(
+      localizationsDelegates: [
+        AppLocalizations.delegate, // Add this line
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: [
+        Locale('en', ''), // English, no country code
+        Locale('fr', ''), // Spanish, no country code
+      ],
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(

@@ -1,0 +1,7 @@
+{
+  "appName": "IFU Distribution",
+  "@appName": {
+    "description": "Application pour gerer les contribuables"
+  },
+  "login": "Se connecter"
+}
