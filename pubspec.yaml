@@ -43,6 +43,7 @@ dependencies:
   pin_code_fields: ^7.3.0
   flutter_localizations:
     sdk: flutter
+#  webview_flutter: ^2.0.13
 
 dev_dependencies:
   flutter_test:

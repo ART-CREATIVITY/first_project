@@ -6,6 +6,7 @@ import 'package:first_project/pages/code_verification_page.dart';
 import 'package:first_project/pages/edit_taxpayer_page.dart';
 import 'package:first_project/pages/login_page.dart';
 import 'package:first_project/pages/principal_page.dart';
+import 'package:first_project/pages/responsivity_page.dart';
 import 'package:first_project/utils/app_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -38,6 +39,8 @@ class _MyAppState extends State<MyApp> {
   }
 
   checkState()async {
+    // Size size = MediaQuery.of(context).size;
+
     // platform.checkMethodCallHandler((call) => null)
     preferences = await AppPreferences.init();
     if(preferences!.checkLogin()){
@@ -45,12 +48,13 @@ class _MyAppState extends State<MyApp> {
     } else {
       initRoute = "login";
     }
-    Stream<int> stream = Stream.periodic(Duration(seconds: 2), (i) {return i; });
-    stream.asBroadcastStream(onListen : (snapshot){
-      snapshot.onData((data) {
-        print(data);
-      });
-    });
+    // initRoute = "responsive";
+    // Stream<int> stream = Stream.periodic(Duration(seconds: 2), (i) {return i; });
+    // stream.asBroadcastStream(onListen : (snapshot){
+    //   snapshot.onData((data) {
+    //     print(data);
+    //   });
+    // });
     setState(() {
     });
   }
@@ -91,6 +95,8 @@ class _MyAppState extends State<MyApp> {
             return MaterialPageRoute(builder: (context)=>EditTaxpayerPage());
           case "taxpayers/update":
             return MaterialPageRoute(builder: (context)=>EditTaxpayerPage(taxpayer: settings.arguments as Taxpayer,));
+          case "responsive":
+            return MaterialPageRoute(builder: (context)=>ResponsivityPage());
         }
       },
     );
@@ -159,6 +165,46 @@ class _FirstPageState extends State<FirstPage> {
       body: Column(
         mainAxisSize: MainAxisSize.max,
         children: [
+          GridView.count(
+            primary: false,
+            padding: const EdgeInsets.all(20),
+            crossAxisSpacing: 10,
+            mainAxisSpacing: 10,
+            crossAxisCount: 2,
+            childAspectRatio: 1,
+            children: <Widget>[
+              Container(
+                padding: const EdgeInsets.all(8),
+                child: const Text("He'd have you all unravel at the"),
+                color: Colors.teal[100],
+              ),
+              Container(
+                padding: const EdgeInsets.all(8),
+                child: const Text('Heed not the rabble'),
+                color: Colors.teal[200],
+              ),
+              Container(
+                padding: const EdgeInsets.all(8),
+                child: const Text('Sound of screams but the'),
+                color: Colors.teal[300],
+              ),
+              Container(
+                padding: const EdgeInsets.all(8),
+                child: const Text('Who scream'),
+                color: Colors.teal[400],
+              ),
+              Container(
+                padding: const EdgeInsets.all(8),
+                child: const Text('Revolution is coming...'),
+                color: Colors.teal[500],
+              ),
+              Container(
+                padding: const EdgeInsets.all(8),
+                child: const Text('Revolution, they...'),
+                color: Colors.teal[600],
+              ),
+            ],
+          ),
           Container(
             padding: EdgeInsets.all(16),
             child: Row(
